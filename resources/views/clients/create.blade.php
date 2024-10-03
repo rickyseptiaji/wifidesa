@@ -1,26 +1,8 @@
 @extends('layouts.main')
 @section('title', 'Tambah Client')
 @section('content')
-<div class="content-wrapper">
-  <!-- Content Header (Page header) -->
-  <section class="content-header">
-    <div class="container-fluid">
-      <div class="row mb-2">
-        <div class="col-sm-6">
-          <h1>Client</h1>
-        </div>
-        <div class="col-sm-6">
-          <ol class="breadcrumb float-sm-right">
-            <li class="breadcrumb-item"><a href="#">Home</a></li>
-            <li class="breadcrumb-item active">DataTables</li>
-          </ol>
-        </div>
-      </div>
-    </div><!-- /.container-fluid -->
-  </section>
-
   <!-- Main content -->
-  <section class="content">
+  <section class="flex-grow-1 container-p-y">
     <div class="container-fluid">
       <div class="row">
         <div class="col-12">
@@ -41,7 +23,7 @@
               </div>
               <div class="mb-3">
                 <label for="formGroupExampleInput3" class="form-label">Telp</label>
-                <input type="number" class="form-control" id="formGroupExampleInput3" placeholder="No Telp" name="telp" required>
+                <input type="number" class="form-control" id="formGroupExampleInput3" placeholder="Ex (08123456)" name="telp" required>
               </div>
               <div class="mb-3">
                 <label for="category">Paket:</label>
@@ -59,8 +41,8 @@
                 <label for="formGroupExampleInput3" class="form-label">Tanggal Aktivasi</label>
                 <input type="date" class="form-control" id="formGroupExampleInput3" placeholder="Tanggal Aktivasi" name="tgl_aktivasi" required>
               </div>
-              <a href="{{route('clients.index')}}" class="btn btn-warning">Kembali</a>
-              <button class="btn btn-primary" type="submit">Simpan</button>
+              <a href="{{route('clients.index')}}" class="btn btn-warning"><i class="bx bx-arrow-back"></i></a>
+              <button class="btn btn-primary" type="submit"><i class="bx bx-save"></i></button>
             </form>
             <!-- /.card-body -->
           </div>
@@ -76,5 +58,4 @@
     <!-- /.container-fluid -->
   </section>
   <!-- /.content -->
-</div>   
 @endsection

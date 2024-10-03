@@ -15,10 +15,10 @@ return new class extends Migration
             $table->id();
             $table->string('nama');
             $table->string('alamat');
-            $table->string('telp');
+            $table->string('telp')->nullable();
             $table->enum('paket',['1','2','3','4']);
             $table->decimal('tarif', 10, 2);
-            $table->date('tgl_aktivasi');
+            $table->date('tgl_aktivasi')->nullable();
             $table->timestamps();
         });
     }

@@ -53,8 +53,8 @@
               <div class="form-group">
                 <label for="pembayaran">Status Pembayaran</label>
                 <select class="form-control" id="pembayaran" name="pembayaran">
-                    <option value="paid" {{ $bill->pembayaran == 'paid' ? 'selected' : '' }}>Sudah</option>
-                    <option value="unpaid" {{ $bill->pembayaran == 'unpaid' ? 'selected' : '' }}>Belum</option>
+                    <option value="1" {{ $bill->pembayaran == '1' ? 'selected' : '' }}>Sudah</option>
+                    <option value="0" {{ $bill->pembayaran == '0' ? 'selected' : '' }}>Belum</option>
                 </select>
               </div>
               <a href="{{route('bills.index')}}" class="btn btn-warning">Kembali</a>

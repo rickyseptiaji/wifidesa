@@ -18,3 +18,7 @@ Route::middleware(['auth'])->group(function () {
     // Route::resource('clients.bills', BillController::class);
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 });
+
+Route::fallback(function () {
+    return response()->view('components.404', [], 404);
+});

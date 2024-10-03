@@ -35,7 +35,7 @@ class BillController extends Controller
     {
         $request->validate([
             'client_id' => 'required',
-            'tagihan' => 'required|numeric',
+            'tagihan' => 'required|numeric',    
             'tgl_pembayaran' => 'nullable|date',
             'pembayaran' => 'required'
         ]);

@@ -10,10 +10,19 @@ class ClientController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $client = Client::all();
-        return view('clients.index', compact('client'));
+        $search = $request->input('search');
+
+        $clients = Client::query()
+        ->when($search, function($query, $search) {
+            return $query->where('nama', 'like', "%{$search}%")
+                         ->orWhere('alamat', 'like', "%{$search}%")
+                         ->orWhere('telp', 'like', "%{$search}%");
+        })
+        ->paginate(10)
+        ->appends(['search' => $search]);
+        return view('clients.index', compact('clients'));
     }
 
     /**
@@ -64,9 +73,9 @@ class ClientController extends Controller
     public function update(Request $request, Client $client)
     {
         $request->validate([
-            'nama'=>'required',
-            'alamat'=>'required',
-            'telp'=>'required|numeric',
+            'nama' => 'required',
+            'alamat' => 'required',
+            'telp' => 'required|numeric',
             'paket' => 'required',
             'tarif' => 'required|numeric',
             'tgl_aktivasi' => 'required|date',
@@ -80,7 +89,7 @@ class ClientController extends Controller
      */
     public function destroy(Client $client)
     {
-       $client->delete();
-       return redirect()->route('clients.index')->with('success', 'Berhasil Hapus Data');
+        $client->delete();
+        return redirect()->route('clients.index')->with('success', 'Berhasil Hapus Data');
     }
 }

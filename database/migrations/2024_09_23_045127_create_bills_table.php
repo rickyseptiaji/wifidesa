@@ -14,9 +14,11 @@ return new class extends Migration
         Schema::create('bills', function (Blueprint $table) {
             $table->id();
             $table->foreignId('client_id')->constrained()->onDelete('cascade');
+            $table->string('bulan');
+            $table->integer('tahun');
             $table->decimal('tagihan', 10, 2);
             $table->date('tgl_pembayaran')->nullable();
-            $table->enum('pembayaran', ['paid', 'unpaid']);
+            $table->boolean('pembayaran')->default(false);
             $table->timestamps();
         });
     }

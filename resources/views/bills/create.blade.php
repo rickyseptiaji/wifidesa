@@ -60,8 +60,8 @@
               <div class="form-group">
                 <label for="category">Pembayaran</label>
                 <select class="form-control" id="category" name="pembayaran">
-                    <option value="paid">Sudah</option>
-                    <option value="unpaid">Belum</option>
+                    <option value="1">Sudah</option>
+                    <option value="0">Belum</option>
                 </select>
             </div>
               <a href="{{route('bills.index')}}" class="btn btn-warning">Kembali</a>

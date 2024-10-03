@@ -1,28 +1,56 @@
 @extends('layouts.app')
-@section('title', 'login')
+@section('title', 'Login')
 @section('auth')
-    <main class="form-signin w-100 m-auto">
-        <form method="POST" action="{{ route('login') }}">
-          @csrf
-          <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
-          <div class="form-floating">
-            <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com" value="{{ old('email') }}" name="email" required>
-            <label for="floatingInput">Email address</label>
+<div class="container-xxl">
+  <div class="authentication-wrapper authentication-basic container-p-y">
+    <div class="authentication-inner">
+      <!-- Register -->
+      <div class="card px-sm-6 px-0">
+        <div class="card-body">
+          <!-- Logo -->
+          <div class="app-brand justify-content-center">
+            <a href="#" class="app-brand-link gap-2">
+              <span class="app-brand-text demo text-heading fw-bold">Wifi</span>
+            </a>
           </div>
-          <div class="form-floating">
-            <input type="password" class="form-control" id="floatingPassword" placeholder="Password" name="password" required>
-            <label for="floatingPassword">Password</label>
-          </div>
-          <button class="btn btn-primary w-100 py-2" type="submit">Sign in</button>
-        </form>
-        @if ($errors->any())
-        <div>
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li class="text-danger">{{ $error }}</li>
-                @endforeach
-            </ul>
+          <!-- /Logo -->
+          <h4 class="mb-1">Welcome to Pema Bersama! 👋</h4>
+          <p class="mb-6">Please sign-in to your account and start the adventure</p>
+
+          <form id="formAuthentication" class="mb-6" action="{{route('login')}}" method="POST">
+            @csrf
+            <div class="mb-6">
+              <label for="email" class="form-label">Email</label>
+              <input
+                type="text"
+                class="form-control"
+                id="email"
+                name="email"
+                placeholder="Enter your email"
+                autofocus />
+            </div>
+            <div class="mb-6 form-password-toggle">
+              <label class="form-label" for="password">Password</label>
+              <div class="input-group input-group-merge">
+                <input
+                  type="password"
+                  id="password"
+                  class="form-control"
+                  name="password"
+                  placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
+                  aria-describedby="password" />
+                <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
+              </div>
+            </div>
+            <div class="mb-6">
+              <button class="btn btn-primary d-grid w-100" type="submit">Login</button>
+            </div>
+            <x-error-messages :errors="$errors" />
+          </form>
         </div>
-      </main>
-  @endif
+      </div>
+      <!-- /Register -->
+    </div>
+  </div>
+</div>
 @endsection
