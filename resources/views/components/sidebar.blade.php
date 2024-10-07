@@ -42,6 +42,11 @@
             <div class="text-truncate" data-i18n="Input groups">Tagihan</div>
           </a>
         </li>
+        <li class="menu-item">
+          <a href="" class="menu-link">
+            <div class="text-truncate" data-i18n="Input groups">Tunggakan</div>
+          </a>
+        </li>
       </ul>
     </li>
 </aside>

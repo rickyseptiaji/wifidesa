@@ -5,17 +5,26 @@ namespace App\Http\Controllers;
 use App\Models\Bill;
 use App\Models\Client;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 
 class BillController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $bill = Bill::all();
-        return view('bills.index', compact('bill'));
+        $clients = Client::all();
+        $search = $request->input('search');
+
+        $clients = Client::with('bills')
+        ->when($search, function($query, $search) {
+            return $query->where('nama', 'like', "%{$search}%")
+                         ->orWhere('alamat', 'like', "%{$search}%")
+                         ->orWhere('telp', 'like', "%{$search}%");
+        })
+        ->paginate(10)
+        ->appends(['search' => $search]);
+        return view('bills.index', compact('clients'));
     }
 
     /**
@@ -23,9 +32,7 @@ class BillController extends Controller
      */
     public function create()
     {
-        $client = Client::all();
-        $bill = Bill::all();
-        return view('bills.create', compact('client','bill'));
+        //
     }
 
     /**
@@ -33,14 +40,7 @@ class BillController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'client_id' => 'required',
-            'tagihan' => 'required|numeric',    
-            'tgl_pembayaran' => 'nullable|date',
-            'pembayaran' => 'required'
-        ]);
-        Bill::create($request->all());
-        return redirect()->route('bills.index')->with('success', 'Berhasil Menambahkan Data');
+        //
     }
 
     /**
@@ -56,7 +56,8 @@ class BillController extends Controller
      */
     public function edit(Bill $bill)
     {
-        return view('bills.edit', compact('bill'));
+        $clients = $bill->client;
+        return view('bills.edit', compact('bill', 'clients'));
     }
 
     /**
@@ -65,7 +66,6 @@ class BillController extends Controller
      public function update(Request $request, Bill $bill)
      {
          $request->validate([
-             'tagihan' => 'required|numeric',
              'tgl_pembayaran' => 'nullable|date',
              'pembayaran' => 'required'
          ]);
@@ -78,7 +78,6 @@ class BillController extends Controller
      */
     public function destroy(Bill $bill)
     {
-        $bill->delete();
-        return redirect()->route('bills.index')->with('success', 'Berhasil Hapus Data');
+        //
     }
 }
