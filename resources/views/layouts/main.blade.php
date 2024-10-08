@@ -55,14 +55,14 @@
       <div class="layout-container">
         <!-- Menu -->
 
-@include('components.sidebar')
+        @include('components.sidebar')
         <!-- / Menu -->
 
         <!-- Layout container -->
         <div class="layout-page">
           <!-- Navbar -->
 
-@include('components.navbar')
+          @include('components.navbar')
 
           <!-- / Navbar -->
 
@@ -70,7 +70,7 @@
           <div class="content-wrapper">
             <!-- Content -->
 
-@yield('content')
+          @yield('content')
             <!-- / Content -->
             <!-- Footer -->
             @include('components.footer')
