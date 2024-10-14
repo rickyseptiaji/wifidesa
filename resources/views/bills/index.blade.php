@@ -49,7 +49,7 @@
                 <td>{{ $client->nama }}</td>
                 <td>{{ $client->alamat }}</td>
                 <td>{{ $client->telp }}</td>
-                <td>Rp {{number_format($client->tarif, 0, ',', '.')}}</td>
+                <td>Rp {{ number_format($client->tarif, 0, ',', '.') }}</td>
 
                 @if ($client->bills->isEmpty())
                   <!-- Jika tidak ada tagihan -->
@@ -61,8 +61,8 @@
                   @php
                     $firstBill = $client->bills->first();
                   @endphp
-                  <td>{{ $firstBill->tgl_tagihan }}</td>
-                  <td>{{ $firstBill->tgl_pembayaran ?? '-' }}</td>
+                  <td>{{ \Carbon\Carbon::parse($firstBill->tgl_tagihan)->format('d/m/Y') }}</td>
+                  <td>{{ $firstBill->tgl_pembayaran ? \Carbon\Carbon::parse($firstBill->tgl_pembayaran)->format('d/m/Y') : '-' }}</td>
                   <td>
                     <span class="{{ $firstBill->pembayaran == 0 ? 'badge bg-label-danger' : 'badge bg-label-success' }}">
                       {{ $firstBill->pembayaran == 0 ? 'Belum' : 'Lunas' }}
@@ -80,7 +80,7 @@
                       <a class="dropdown-item" href="{{ route('bills.edit', $client) }}">
                         <i class="bx bx-edit-alt me-1"></i> Edit
                       </a>
-                      <a class="dropdown-item" href="{{route('bills.invoice', $client)}}">
+                      <a class="dropdown-item" href="{{ route('bills.invoice', $client) }}">
                         <i class="bx bx-printer me-1"></i> Invoice
                       </a>
                       <a class="dropdown-item" href="">
@@ -100,6 +100,7 @@
     </div>
   </div>
 </div>
+
 
 
 

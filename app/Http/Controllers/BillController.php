@@ -15,16 +15,26 @@ class BillController extends Controller
      */
     public function index(Request $request)
     {
+        // Validasi input
+        $request->validate([
+            'search' => 'nullable|string|max:255',
+            'from' => 'nullable|date',
+            'to' => 'nullable|date|after_or_equal:from',
+        ]);
+
         // Ambil parameter pencarian dan tanggal
         $search = $request->input('search');
         $from = $request->input('from');
         $to = $request->input('to');
 
         // Query untuk mendapatkan klien dengan pagination
-        $clients = Client::with('bills')
-            ->whereHas('bills', function ($q) use ($from, $to) {
+        $clients = Client::with(['bills' => function ($q) use ($from, $to) {
+            // Hanya gunakan whereBetween jika kedua tanggal diisi
+            if ($from && $to) {
+                // Pastikan format tanggal sesuai dengan format yang ada di database
                 $q->whereBetween('tgl_tagihan', [$from, $to]);
-            })
+            }
+        }])
             ->when($search, function ($query) use ($search) {
                 return $query->where('nama', 'like', "%{$search}%")
                     ->orWhere('alamat', 'like', "%{$search}%")
@@ -32,6 +42,7 @@ class BillController extends Controller
             })
             ->paginate(10) // Menggunakan pagination
             ->appends(['search' => $search, 'from' => $from, 'to' => $to]); // Melampirkan parameter untuk pagination
+
         // Mengembalikan tampilan dengan data klien
         return view('bills.index', compact('clients', 'search', 'from', 'to'));
     }
@@ -100,9 +111,9 @@ class BillController extends Controller
         // Ambil semua bill terkait client yang belum dibayar
         $unpaidBills = $client->bills()->where('pembayaran', 'unpaid')->get();
 
- // Hitung total tarif berdasarkan jumlah tagihan yang belum dibayar
- $jumlahTagihan = $unpaidBills->count(); // Menghitung jumlah tagihan
- $totalTarif = $client->tarif * $jumlahTagihan; // Mengalikan tarif dengan jumlah tagihan
+        // Hitung total tarif berdasarkan jumlah tagihan yang belum dibayar
+        $jumlahTagihan = $unpaidBills->count(); // Menghitung jumlah tagihan
+        $totalTarif = $client->tarif * $jumlahTagihan; // Mengalikan tarif dengan jumlah tagihan
 
         // Generate PDF
         $pdf = Pdf::loadView('bills.pdf', compact('bill', 'tanggal', 'tahun', 'client', 'unpaidBills', 'totalTarif'));
