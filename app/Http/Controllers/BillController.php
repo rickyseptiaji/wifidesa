@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Bill;
 use App\Models\Client;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class BillController extends Controller
@@ -20,9 +22,9 @@ class BillController extends Controller
 
         // Query untuk mendapatkan klien dengan pagination
         $clients = Client::with('bills')
-        ->whereHas('bills', function ($q) use ($from, $to) {
-            $q->whereBetween('tgl_tagihan', [$from, $to]);
-        })
+            ->whereHas('bills', function ($q) use ($from, $to) {
+                $q->whereBetween('tgl_tagihan', [$from, $to]);
+            })
             ->when($search, function ($query) use ($search) {
                 return $query->where('nama', 'like', "%{$search}%")
                     ->orWhere('alamat', 'like', "%{$search}%")
@@ -30,7 +32,6 @@ class BillController extends Controller
             })
             ->paginate(10) // Menggunakan pagination
             ->appends(['search' => $search, 'from' => $from, 'to' => $to]); // Melampirkan parameter untuk pagination
-
         // Mengembalikan tampilan dengan data klien
         return view('bills.index', compact('clients', 'search', 'from', 'to'));
     }
@@ -46,7 +47,7 @@ class BillController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store()
     {
         //
     }
@@ -54,7 +55,7 @@ class BillController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show()
     {
         //
     }
@@ -84,8 +85,29 @@ class BillController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Bill $bill)
+    public function destroy()
     {
         //
+    }
+
+    public function generatePDF(Bill $bill)
+    {
+        $tanggal = Carbon::now()->format('d/m/y');
+        $tahun = Carbon::createFromFormat('d/m/y', $tanggal)->year;
+        // Ambil client dari bill
+        $client = $bill->client; // Ambil client yang terkait dengan bill
+
+        // Ambil semua bill terkait client yang belum dibayar
+        $unpaidBills = $client->bills()->where('pembayaran', 'unpaid')->get();
+
+ // Hitung total tarif berdasarkan jumlah tagihan yang belum dibayar
+ $jumlahTagihan = $unpaidBills->count(); // Menghitung jumlah tagihan
+ $totalTarif = $client->tarif * $jumlahTagihan; // Mengalikan tarif dengan jumlah tagihan
+
+        // Generate PDF
+        $pdf = Pdf::loadView('bills.pdf', compact('bill', 'tanggal', 'tahun', 'client', 'unpaidBills', 'totalTarif'));
+
+        // Download PDF
+        return $pdf->download('invoice.pdf');
     }
 }

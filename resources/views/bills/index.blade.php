@@ -49,7 +49,7 @@
                 <td>{{ $client->nama }}</td>
                 <td>{{ $client->alamat }}</td>
                 <td>{{ $client->telp }}</td>
-                <td>{{ $client->tarif }}</td>
+                <td>Rp {{number_format($client->tarif, 0, ',', '.')}}</td>
 
                 @if ($client->bills->isEmpty())
                   <!-- Jika tidak ada tagihan -->
@@ -80,7 +80,7 @@
                       <a class="dropdown-item" href="{{ route('bills.edit', $client) }}">
                         <i class="bx bx-edit-alt me-1"></i> Edit
                       </a>
-                      <a class="dropdown-item" href="">
+                      <a class="dropdown-item" href="{{route('bills.invoice', $client)}}">
                         <i class="bx bx-printer me-1"></i> Invoice
                       </a>
                       <a class="dropdown-item" href="">
