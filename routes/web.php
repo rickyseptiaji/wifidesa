@@ -16,7 +16,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/', [DashboardController::class, 'index'])->name('home');
     Route::resource('clients', ClientController::class);
     Route::resource('bills', BillController::class);
-    Route::get('bills/{bill}/invoice', [BillController::class, 'generatePDF'])->name('bills.invoice'); 
+    Route::get('bills/{bill}/invoice', [BillController::class, 'generateInvoice'])->name('bills.invoice'); 
+    Route::get('bills/{bill}/kwitansi', [BillController::class, 'generatekwitansi'])->name('bills.kwitansi'); 
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 });
 

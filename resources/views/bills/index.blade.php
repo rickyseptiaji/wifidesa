@@ -76,16 +76,20 @@
                     <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
                       <i class="bx bx-dots-vertical-rounded"></i>
                     </button>
+                    @if ($client->bills->isNotEmpty())
                     <div class="dropdown-menu">
-                      <a class="dropdown-item" href="{{ route('bills.edit', $client) }}">
+                      @foreach ($client->bills as $bill)
+                      <a class="dropdown-item" href="{{ route('bills.edit', $bill->id) }}">
                         <i class="bx bx-edit-alt me-1"></i> Edit
                       </a>
                       <a class="dropdown-item" href="{{ route('bills.invoice', $client) }}">
                         <i class="bx bx-printer me-1"></i> Invoice
                       </a>
-                      <a class="dropdown-item" href="">
+                      <a class="dropdown-item" href="{{route('bills.kwitansi', $bill->id)}}">
                         <i class="bx bxs-printer me-1"></i> Bills
-                      </a>
+                      @endforeach
+                    </a>
+                    @endif
                     </div>
                   </div>
                 </td>

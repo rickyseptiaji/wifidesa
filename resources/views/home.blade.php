@@ -28,7 +28,7 @@
         </div>
       </div>
     </div> --}}
-    <div class="col-lg-4 col-md-4 order-1">
+    {{-- <div class="col-lg-4 col-md-4 order-1">
       <div class="row">
         <div class="col-lg-6 col-md-12 col-6 mb-6">
           <div class="card h-100">
@@ -95,9 +95,9 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> --}}
     <!-- Total Revenue -->
-    <div class="col-12 col-xxl-8 order-2 order-md-3 order-xxl-2 mb-6">
+    {{-- <div class="col-12 col-xxl-8 order-2 order-md-3 order-xxl-2 mb-6">
       <div class="card">
         <div class="row row-bordered g-0">
           <div class="col-lg-8">
@@ -187,7 +187,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> --}}
     <!--/ Total Revenue -->
     <div class="col-12 col-md-8 col-lg-12 col-xxl-4 order-3 order-md-2">
       <div class="row">
@@ -214,7 +214,7 @@
                   </div>
                 </div>
               </div>
-              <p class="mb-1">Payments</p>
+              <p class="mb-1">Client</p>
               <h4 class="card-title mb-3">$2,456</h4>
               <small class="text-danger fw-medium"><i class="bx bx-down-arrow-alt"></i> -14.82%</small>
             </div>
@@ -243,13 +243,42 @@
                   </div>
                 </div>
               </div>
-              <p class="mb-1">Transactions</p>
+              <p class="mb-1">Tagihan</p>
               <h4 class="card-title mb-3">$14,857</h4>
               <small class="text-success fw-medium"><i class="bx bx-up-arrow-alt"></i> +28.14%</small>
             </div>
           </div>
         </div>
-        <div class="col-12 mb-6">
+        <div class="col-6 mb-6">
+          <div class="card h-100">
+            <div class="card-body">
+              <div class="card-title d-flex align-items-start justify-content-between mb-4">
+                <div class="avatar flex-shrink-0">
+                  <img src="../assets/img/icons/unicons/cc-primary.png" alt="Credit Card" class="rounded" />
+                </div>
+                <div class="dropdown">
+                  <button
+                    class="btn p-0"
+                    type="button"
+                    id="cardOpt1"
+                    data-bs-toggle="dropdown"
+                    aria-haspopup="true"
+                    aria-expanded="false">
+                    <i class="bx bx-dots-vertical-rounded text-muted"></i>
+                  </button>
+                  <div class="dropdown-menu" aria-labelledby="cardOpt1">
+                    <a class="dropdown-item" href="javascript:void(0);">View More</a>
+                    <a class="dropdown-item" href="javascript:void(0);">Delete</a>
+                  </div>
+                </div>
+              </div>
+              <p class="mb-1">Tunggakan</p>
+              <h4 class="card-title mb-3">$14,857</h4>
+              <small class="text-success fw-medium"><i class="bx bx-up-arrow-alt"></i> +28.14%</small>
+            </div>
+          </div>
+        </div>
+        {{-- <div class="col-12 mb-6">
           <div class="card">
             <div class="card-body">
               <div class="d-flex justify-content-between align-items-center flex-sm-row flex-column gap-10">
@@ -269,11 +298,11 @@
               </div>
             </div>
           </div>
-        </div>
+        </div> --}}
       </div>
     </div>
   </div>
-  <div class="row">
+  {{-- <div class="row">
     <!-- Order Statistics -->
     <div class="col-md-6 col-lg-4 col-xl-4 order-0 mb-6">
       <div class="card h-100">
@@ -553,6 +582,6 @@
       </div>
     </div>
     <!--/ Transactions -->
-  </div>
+  </div> --}}
 </div>
 @endsection

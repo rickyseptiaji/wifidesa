@@ -15,36 +15,43 @@ class BillController extends Controller
      */
     public function index(Request $request)
     {
-        // Validasi input
-        $request->validate([
-            'search' => 'nullable|string|max:255',
-            'from' => 'nullable|date',
-            'to' => 'nullable|date|after_or_equal:from',
-        ]);
+    // Validasi input
+    $request->validate([
+        'search' => 'nullable|string|max:255',
+        'from' => 'nullable|date',
+        'to' => 'nullable|date|after_or_equal:from',
+    ]);
 
-        // Ambil parameter pencarian dan tanggal
-        $search = $request->input('search');
-        $from = $request->input('from');
-        $to = $request->input('to');
+    // Ambil parameter pencarian dan tanggal
+    $search = $request->input('search');
+    $from = $request->input('from');
+    $to = $request->input('to');
 
+    // Jika tidak ada parameter filter, buat query kosong
+    $clientsQuery = Client::query();
+
+    if (empty($search) && empty($from) && empty($to)) {
+        $clientsQuery->whereRaw('1=0');
+    } else {
         // Query untuk mendapatkan klien dengan pagination
-        $clients = Client::with(['bills' => function ($q) use ($from, $to) {
-            // Hanya gunakan whereBetween jika kedua tanggal diisi
+        $clientsQuery->with(['bills' => function ($q) use ($from, $to) {
             if ($from && $to) {
-                // Pastikan format tanggal sesuai dengan format yang ada di database
                 $q->whereBetween('tgl_tagihan', [$from, $to]);
             }
         }])
-            ->when($search, function ($query) use ($search) {
-                return $query->where('nama', 'like', "%{$search}%")
-                    ->orWhere('alamat', 'like', "%{$search}%")
-                    ->orWhere('telp', 'like', "%{$search}%");
-            })
-            ->paginate(10) // Menggunakan pagination
-            ->appends(['search' => $search, 'from' => $from, 'to' => $to]); // Melampirkan parameter untuk pagination
+        ->when($search, function ($query) use ($search) {
+            return $query->where('nama', 'like', "%{$search}%")
+                ->orWhere('alamat', 'like', "%{$search}%")
+                ->orWhere('telp', 'like', "%{$search}%");
+        });
+    }
 
-        // Mengembalikan tampilan dengan data klien
-        return view('bills.index', compact('clients', 'search', 'from', 'to'));
+    // Pagination
+    $clients = $clientsQuery->paginate(10)
+        ->appends(['search' => $search, 'from' => $from, 'to' => $to]);
+
+    // Mengembalikan tampilan dengan data klien
+    return view('bills.index', compact('clients', 'search', 'from', 'to'));
     }
 
     /**
@@ -101,24 +108,32 @@ class BillController extends Controller
         //
     }
 
-    public function generatePDF(Bill $bill)
+    public function generateInvoice(Bill $bill)
     {
-        $tanggal = Carbon::now()->format('d/m/y');
-        $tahun = Carbon::createFromFormat('d/m/y', $tanggal)->year;
         // Ambil client dari bill
         $client = $bill->client; // Ambil client yang terkait dengan bill
 
         // Ambil semua bill terkait client yang belum dibayar
         $unpaidBills = $client->bills()->where('pembayaran', 'unpaid')->get();
-
+        // Ambil tgl tagihan terbaru
+        $curentTagihan = $client->bills()->orderBy('tgl_tagihan', 'desc')->get();
         // Hitung total tarif berdasarkan jumlah tagihan yang belum dibayar
         $jumlahTagihan = $unpaidBills->count(); // Menghitung jumlah tagihan
         $totalTarif = $client->tarif * $jumlahTagihan; // Mengalikan tarif dengan jumlah tagihan
 
         // Generate PDF
-        $pdf = Pdf::loadView('bills.pdf', compact('bill', 'tanggal', 'tahun', 'client', 'unpaidBills', 'totalTarif'));
+        $pdf = Pdf::loadView('bills.invoice', compact('bill', 'client', 'unpaidBills', 'totalTarif', 'curentTagihan'));
 
         // Download PDF
         return $pdf->download('invoice.pdf');
+    }
+
+    public function generateKwitansi(Bill $bill){
+        $client = $bill->client;
+
+        $paidBills = $client->bills()->where('pembayaran', 'paid')->get();
+        // return view('bills.kwitansi', compact('client', 'bill', 'tanggal', 'tahun'));
+        $pdf = PDF::loadView('bills.kwitansi', compact('client', 'bill'));
+        return $pdf->download('kwitansi.pdf');
     }
 }
