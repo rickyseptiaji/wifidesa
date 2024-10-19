@@ -100,7 +100,7 @@ body {
             <img src="{{ public_path('images/image.png') }}" alt="Logo" class="logo">
             <div class="title">
                 <h1>KWITANSI</h1>
-                <p>{{$client->id}}/PEMA/{{$tahun}}</p>
+                <p>{{$client->id}}/PEMA/{{\Carbon\Carbon::now()->format('Y')}}</p>
             </div>
         </div>
 
