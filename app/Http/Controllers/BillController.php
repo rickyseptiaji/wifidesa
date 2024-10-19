@@ -114,7 +114,8 @@ class BillController extends Controller
         $client = $bill->client; // Ambil client yang terkait dengan bill
 
         // Ambil semua bill terkait client yang belum dibayar
-        $unpaidBills = $client->bills()->where('pembayaran', 'unpaid')->get();
+        $unpaidBills = $client->bills()->where('pembayaran', 0)->get();
+        dd($unpaidBills);
         // Ambil tgl tagihan terbaru
         $curentTagihan = $client->bills()->orderBy('tgl_tagihan', 'desc')->get();
         // Hitung total tarif berdasarkan jumlah tagihan yang belum dibayar
@@ -131,7 +132,7 @@ class BillController extends Controller
     public function generateKwitansi(Bill $bill){
         $client = $bill->client;
 
-        $paidBills = $client->bills()->where('pembayaran', 'paid')->get();
+        $paidBills = $client->bills()->where('pembayaran', 1)->get();
         // return view('bills.kwitansi', compact('client', 'bill', 'tanggal', 'tahun'));
         $pdf = PDF::loadView('bills.kwitansi', compact('client', 'bill'));
         return $pdf->download('kwitansi.pdf');
