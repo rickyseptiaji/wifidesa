@@ -115,7 +115,6 @@ class BillController extends Controller
 
         // Ambil semua bill terkait client yang belum dibayar
         $unpaidBills = $client->bills()->where('pembayaran', 0)->get();
-        dd($unpaidBills);
         // Ambil tgl tagihan terbaru
         $curentTagihan = $client->bills()->orderBy('tgl_tagihan', 'desc')->get();
         // Hitung total tarif berdasarkan jumlah tagihan yang belum dibayar
