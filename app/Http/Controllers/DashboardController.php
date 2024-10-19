@@ -11,9 +11,13 @@ class DashboardController extends Controller
 
     
     public function index(){
-        $clientCount = Client::count();
-        $billsCount = Bill::count();
+        $client = Client::count();
+        $tagihan = Bill::where('pembayaran', 0)->count();
+        $tunggakan = Bill::where('pembayaran', 0)
+        ->whereMonth('tgl_tagihan', now()->subMonth()->month)
+        ->whereYear('tgl_tagihan', now()->subMonth()->year)  
+        ->count();
 
-        return view('home', compact('clientCount', 'billsCount'));
+        return view('home', compact('client','tagihan', 'tunggakan'));
     }
 }

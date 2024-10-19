@@ -209,14 +209,14 @@
                     <i class="bx bx-dots-vertical-rounded text-muted"></i>
                   </button>
                   <div class="dropdown-menu dropdown-menu-end" aria-labelledby="cardOpt4">
-                    <a class="dropdown-item" href="javascript:void(0);">View More</a>
-                    <a class="dropdown-item" href="javascript:void(0);">Delete</a>
+                    <a class="dropdown-item" href="{{route('clients.index')}}">View More</a>
+                    {{-- <a class="dropdown-item" href="javascript:void(0);">Delete</a> --}}
                   </div>
                 </div>
               </div>
               <p class="mb-1">Client</p>
-              <h4 class="card-title mb-3">$2,456</h4>
-              <small class="text-danger fw-medium"><i class="bx bx-down-arrow-alt"></i> -14.82%</small>
+              <h4 class="card-title mb-3">{{$client}}</h4>
+              {{-- <small class="text-danger fw-medium"><i class="bx bx-down-arrow-alt"></i> -14.82%</small> --}}
             </div>
           </div>
         </div>
@@ -238,14 +238,14 @@
                     <i class="bx bx-dots-vertical-rounded text-muted"></i>
                   </button>
                   <div class="dropdown-menu" aria-labelledby="cardOpt1">
-                    <a class="dropdown-item" href="javascript:void(0);">View More</a>
-                    <a class="dropdown-item" href="javascript:void(0);">Delete</a>
+                    <a class="dropdown-item" href="{{route('bills.index')}}">View More</a>
+                    {{-- <a class="dropdown-item" href="javascript:void(0);">Delete</a> --}}
                   </div>
                 </div>
               </div>
               <p class="mb-1">Tagihan</p>
-              <h4 class="card-title mb-3">$14,857</h4>
-              <small class="text-success fw-medium"><i class="bx bx-up-arrow-alt"></i> +28.14%</small>
+              <h4 class="card-title mb-3">{{$tagihan}}</h4>
+              {{-- <small class="text-success fw-medium"><i class="bx bx-up-arrow-alt"></i> +28.14%</small> --}}
             </div>
           </div>
         </div>
@@ -267,14 +267,14 @@
                     <i class="bx bx-dots-vertical-rounded text-muted"></i>
                   </button>
                   <div class="dropdown-menu" aria-labelledby="cardOpt1">
-                    <a class="dropdown-item" href="javascript:void(0);">View More</a>
-                    <a class="dropdown-item" href="javascript:void(0);">Delete</a>
+                    <a class="dropdown-item" href="{{route('tunggakan.index')}}">View More</a>
+                    {{-- <a class="dropdown-item" href="javascript:void(0);">Delete</a> --}}
                   </div>
                 </div>
               </div>
               <p class="mb-1">Tunggakan</p>
-              <h4 class="card-title mb-3">$14,857</h4>
-              <small class="text-success fw-medium"><i class="bx bx-up-arrow-alt"></i> +28.14%</small>
+              <h4 class="card-title mb-3">{{$tunggakan}}</h4>
+              {{-- <small class="text-success fw-medium"><i class="bx bx-up-arrow-alt"></i> +28.14%</small> --}}
             </div>
           </div>
         </div>
